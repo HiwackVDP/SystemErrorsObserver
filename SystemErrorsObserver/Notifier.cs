@@ -45,7 +45,15 @@ namespace SystemErrorsObserver
 
         private static void OpenEventLogs(ToastNotification sender, object args)
         {
-            Process.Start($"eventvwr.msc /c:{sender.Tag}");
+            var process = new Process();
+            var startInfo = new ProcessStartInfo
+            {
+                WindowStyle = ProcessWindowStyle.Hidden,
+                FileName = "cmd.exe",
+                Arguments = $"/C eventvwr /c:{sender.Tag}"
+            };
+            process.StartInfo = startInfo;
+            process.Start();
         }
     }
 }

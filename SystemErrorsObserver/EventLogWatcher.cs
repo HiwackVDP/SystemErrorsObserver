@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using System.Text;
 
 namespace SystemErrorsObserver
 {

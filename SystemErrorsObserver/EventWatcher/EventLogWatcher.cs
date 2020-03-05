@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 
-namespace SystemErrorsObserver
+namespace SystemErrorsObserver.EventWatcher
 {
     public class EventLogWatcher
     {
@@ -28,7 +28,8 @@ namespace SystemErrorsObserver
                 throw new ArgumentException(nameof(e.EventRecord.Properties));
             }
 
-            if(e.EventRecord.Level == 2)
+            var eventLevel = e.EventRecord.Level;
+            if (eventLevel <= EventLevel.Error)
             {
                 Notifier.ShowNotification(e.EventRecord.ProviderName, e.EventRecord.FormatDescription(), e.EventRecord.LogName);
             }

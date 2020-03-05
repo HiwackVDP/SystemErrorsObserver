@@ -1,3 +1,5 @@
+using SystemErrorsObserver.EventWatcher;
+
 namespace SystemErrorsObserver
 {
     public static class Program

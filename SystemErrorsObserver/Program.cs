@@ -1,20 +1,24 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
 namespace SystemErrorsObserver
 {
-    public class Program
+    public static class Program
     {
+        private static readonly string[] eventLogs = new[]
+        {
+            "Application",
+            "System"
+        };
+
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
-        }
+            // Test commandline : 
+            // eventcreate /ID 1 /L APPLICATION /T ERROR  /SO MYEVENTSOURCE /D "My first log"
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.AddHostedService<Worker>();
-                });
+            foreach (string eventLog in eventLogs)
+            {
+                new EventLogWatcher(eventLog);
+            }
+
+            while (true) { }
+        }
     }
 }

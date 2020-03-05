@@ -1,33 +1,21 @@
 using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 
 namespace SystemErrorsObserver
 {
-    public class Worker : BackgroundService
+    public class EventLogWatcher
     {
-        private readonly string[] eventLogs = new[]
-        {
-            "Application",
-            "System"
-        };
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public EventLogWatcher(string eventLog)
         {
-            foreach (string eventLog in eventLogs)
-                StartEventLogWatcher(eventLog);
-
-            while (!stoppingToken.IsCancellationRequested)
-            {}
+            Start(eventLog);
         }
 
-        private void StartEventLogWatcher(string eventLog)
+        private void Start(string eventLog)
         {
             var query = new EventLogQuery(eventLog, PathType.LogName);
-            var watcher = new EventLogWatcher(query);
+            var watcher = new System.Diagnostics.Eventing.Reader.EventLogWatcher(query);
 
             watcher.EventRecordWritten += new EventHandler<EventRecordWrittenEventArgs>(SystemErrorHandler);
             watcher.Enabled = true;

@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Text;
 
 namespace SystemErrorsObserver
 {
@@ -30,7 +31,7 @@ namespace SystemErrorsObserver
 
             if(e.EventRecord.Level == 2)
             {
-                Notifier.ShowNotification(e.EventRecord.ProviderName, (string)e.EventRecord.Properties[0].Value, e.EventRecord.LogName);
+                Notifier.ShowNotification(e.EventRecord.ProviderName, e.EventRecord.FormatDescription(), e.EventRecord.LogName);
             }
         }
     }
